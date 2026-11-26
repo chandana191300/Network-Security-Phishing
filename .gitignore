@@ -1,0 +1,11 @@
+Artifacts/
+mlruns/
+logs/
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+.pytest_cache/
+*.egg-info/
+prediction_output/

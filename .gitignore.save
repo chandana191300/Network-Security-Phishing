@@ -1,0 +1,30 @@
+Artifacts/
+mlruns/
+logs/
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+.pytest_cache/
+*.egg-info/
+prediction_output/
+# Generated files
+Artifacts/
+mlruns/
+logs/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Python environments
+.env
+venv/
+.venv/
+
+# Generated output
+prediction_output/output.csv
+
+# Keep trained models in GitHub
+!final_model/model.pkl
+!final_model/preprocessor.pkl
