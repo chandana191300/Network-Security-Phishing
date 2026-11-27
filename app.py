@@ -1,7 +1,6 @@
 
 import sys
 import os
-import certifi
 import pandas as pd
 
 from dotenv import load_dotenv
@@ -17,46 +16,12 @@ from networksecurity.utils.main_utils.utils import load_object
 from networksecurity.utils.url_feature_extraction import URLFeatureExtractor
 
 
-# -------------------- ENV + DATABASE --------------------
+# -------------------- ENVIRONMENT --------------------
 
 load_dotenv()
 
-mongo_db_url = os.getenv("MONGODB_URL_KEY")
-
-# Initialize MongoDB safely
-try:
-    import pymongo
-
-    if not mongo_db_url:
-        raise ValueError("MONGODB_URL_KEY is not configured")
-
-    ca = certifi.where()
-
-    client = pymongo.MongoClient(
-        mongo_db_url,
-        tlsCAFile=ca,
-        serverSelectionTimeoutMS=2000
-    )
-
-    # Test connection
-    client.admin.command("ping")
-
-    from networksecurity.constant.training_pipeline import (
-        DATA_INGESTION_COLLECTION_NAME,
-        DATA_INGESTION_DATABASE_NAME
-    )
-
-    database = client[DATA_INGESTION_DATABASE_NAME]
-    collection = database[DATA_INGESTION_COLLECTION_NAME]
-
-    print("MongoDB connection successful")
-
-except Exception as e:
-    print(f"MongoDB connection failed (non-critical): {e}")
-
-    client = None
-    database = None
-    collection = None
+# Phishing predictions use the saved local model and do not require MongoDB.
+# MongoDB is only needed by the separate model-training/data-ingestion pipeline.
 
 
 # -------------------- FASTAPI APPLICATION --------------------

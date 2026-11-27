@@ -1,14 +1,13 @@
+import os
+from pymongo import MongoClient
 
-from pymongo.mongo_client import MongoClient
+uri = os.getenv("MONGO_DB_URL")
+if not uri:
+    raise RuntimeError("Set MONGO_DB_URL before running this MongoDB connection test.")
 
-uri = "mongodb+srv://shoyub:<@password>@cluster0.wnqb6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-# Create a new client and connect to the server
-client = MongoClient(uri)
-
-# Send a ping to confirm a successful connection
+client = MongoClient(uri, serverSelectionTimeoutMS=5000)
 try:
-    client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
+    client.admin.command("ping")
+    print("MongoDB connection successful.")
+finally:
+    client.close()
